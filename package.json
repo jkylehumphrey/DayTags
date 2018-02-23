@@ -7,14 +7,22 @@
     "test": "jest"
   },
   "dependencies": {
+    "mobx": "^3.5.1",
+    "mobx-react": "^4.4.2",
+    "native-base": "^2.3.9",
     "react": "16.2.0",
-    "react-native": "0.53.3"
+    "react-native": "0.53.3",
+    "react-native-router-flux": "^4.0.0-beta.28",
+    "react-native-typescript-transformer": "^1.2.3"
   },
   "devDependencies": {
+    "@types/react": "^16.0.38",
+    "@types/react-native": "^0.52.13",
     "babel-jest": "22.4.1",
     "babel-preset-react-native": "4.0.0",
     "jest": "22.4.2",
-    "react-test-renderer": "16.2.0"
+    "react-test-renderer": "16.2.0",
+    "typescript": "^2.7.2"
   },
   "jest": {
     "preset": "react-native"
