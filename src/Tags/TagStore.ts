@@ -1,6 +1,7 @@
 import { TagService } from './TagService'
-import { observable, action, computed } from 'mobx';
+import { observable, action, computed, reaction } from 'mobx';
 import { Tag } from './Tag';
+import * as _ from 'lodash';
 
 export class TagStore {
     @observable tags: Tag[] = [];
@@ -23,9 +24,20 @@ export class TagStore {
             .catch(err => alert(err));
     }
 
+    saveHandler = reaction(
+        () => this.tags.length,
+        tags => { TagService.storeTags(this.tags) }
+    );
+
+    @action clearStore() {
+        this.tags = [];
+    }
     @action addTag(tag: Tags.Contracts.ITag) {
         this.tags.push(new Tag(tag));
-        TagService.storeTags(this.tags);
+    }
+
+    @action removeTag(tag: Tag) {
+        this.tags.splice(this.tags.indexOf(tag), 1);
     }
 }
 

@@ -27,15 +27,15 @@ export default class App extends React.Component<any, any> {
   render() {
 
     const tags = _tagStore.tags.map((t, i) => {
-      return <Button key={i}><Text>{t.description}</Text></Button>
+      return <Button key={i} onPress={() => { _tagStore.removeTag(t); }}><Text>{t.description}</Text></Button>
     });
 
     return (
       <View style={styles.container}>
         <Button onPress={this.onAddTag}><Text>Add Tag</Text></Button>
-
+        <Button onPress={() => { _tagStore.clearStore(); }}><Text>Clear Tags</Text></Button>
         {tags}
-      </View>
+      </View >
     );
   }
 }

@@ -3,6 +3,7 @@ import { observable, computed, action } from "mobx";
 const _TAG_STORAGE = "@DayTags.tags"
 
 export class TagService {
+    
     public static getAll = (): Promise<Tags.Contracts.ITag[]> => {
         return new Promise((resolve, reject) => {
             AsyncStorage.getItem(_TAG_STORAGE)
