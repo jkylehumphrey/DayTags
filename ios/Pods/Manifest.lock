@@ -1,0 +1,21 @@
+PODS:
+  - AppCenter/Analytics (1.4.0):
+    - AppCenter/Core
+  - AppCenter/Core (1.4.0)
+  - AppCenter/Crashes (1.4.0):
+    - AppCenter/Core
+  - AppCenterReactNativeShared (1.3.0):
+    - AppCenter/Core (= 1.4.0)
+
+DEPENDENCIES:
+  - AppCenter/Analytics (~> 1.4.0)
+  - AppCenter/Crashes (~> 1.4.0)
+  - AppCenterReactNativeShared (~> 1.3.0)
+
+SPEC CHECKSUMS:
+  AppCenter: 2f5890b60944971b8c3767269a9d693205a91fef
+  AppCenterReactNativeShared: 784f42fbb8f12c9bc587527a650c48d8f001295f
+
+PODFILE CHECKSUM: 2448cb655a2b610dc4f37e369beead5982d723dc
+
+COCOAPODS: 1.4.0
