@@ -2,14 +2,15 @@ import { TagService } from './TagService'
 import { observable, action, computed, reaction } from 'mobx';
 import { Tag } from './Tag';
 import * as _ from 'lodash';
+import { DayViewStore } from './DayViewStore';
 
 export class TagStore {
     @observable tags: Tag[] = [];
-    @computed get totalNumTags(): number {
-        return this.tags.length;
-    };
+    private dayViewStore: DayViewStore;
 
-    constructor() {
+    constructor(dayViewStore: DayViewStore) {
+        this.dayViewStore = dayViewStore;
+
         TagService.getAll()
             .then(tags => {
                 console.log(tags);
@@ -29,14 +30,33 @@ export class TagStore {
         tags => { TagService.storeTags(this.tags) }
     );
 
+    @computed get totalNumTags(): number {
+        return this.tags.length;
+    };
+
+    @computed get tenMostRecentTags(): Tag[] {
+        return this.tags.filter(t => { return !t.days.includes(this.dayViewStore.currentMomentTicks) }).sort((a: Tag, b: Tag) => {
+            return b.lastUsedTicks - a.lastUsedTicks;
+        }).slice(0, 9);
+    }
+
+    @computed get tagsForCurrentDay(): Tag[] {
+        return this.tags.filter(t => { return t.days.includes(this.dayViewStore.currentMomentTicks) });
+    }
+
+    tagsForDay(dayTicks: number): Tag[] {
+        return this.tags.filter(t => { return t.days.includes(dayTicks) });
+    }
+
     @action clearStore() {
         this.tags = [];
     }
+
     @action addTag(tag: Tags.Contracts.ITag) {
         this.tags.push(new Tag(tag));
     }
 
-    @action removeTag(tag: Tag) {
+    @action deleteTag(tag: Tag) {
         this.tags.splice(this.tags.indexOf(tag), 1);
     }
 }
