@@ -35,7 +35,7 @@ export class TagStore {
     }
 
     saveHandler = reaction(
-        () => this.tags.length,
+        () => this.tags.map(t => t.days.length),
         tags => { TagService.storeTags(this.tags) }
     );
 
@@ -72,6 +72,12 @@ export class TagStore {
 
     @action deleteTag(tag: Tag) {
         this.tags.splice(this.tags.indexOf(tag), 1);
+    }
+
+    searchTags(description: string): Tag[] {
+        const regex = new RegExp(`${description.trim()}`, 'i');
+        return description.length === 0 ? [] :
+            this.tags.filter(tag => tag.description.search(regex) >= 0);
     }
 }
 

@@ -45,7 +45,9 @@ export class AddTagModal extends React.Component<{ observableProps: AddTagModalP
                         flexDirection: 'row',
                         alignItems: 'center',
                     }}>
-                        <Input value={this.newTagDescription} onChangeText={this.handleTagDescriptionChange} />
+                        <Input value={this.newTagDescription}
+                            autoFocus
+                            onChangeText={this.handleTagDescriptionChange} />
                     </View>
                     <Button full success onPress={this.handleTagAdd} >
                         <Text>Add Tag</Text>
