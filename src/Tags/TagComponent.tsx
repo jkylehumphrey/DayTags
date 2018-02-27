@@ -112,7 +112,6 @@ class TagComponentFooter extends React.Component<{ tagStore: TagStore, dayViewSt
 
     handleNewTagDescriptionChange = (text: string) => {
         this.displayState.newTagDescription = text;
-
     }
 
     handleTagPressed = (t: Tag) => {
@@ -123,7 +122,7 @@ class TagComponentFooter extends React.Component<{ tagStore: TagStore, dayViewSt
 
     render() {
 
-        const recentTags = this.tagsToShow.map(t => {
+        const tagsToShow = this.tagsToShow.map(t => {
             return (
                 <Button key={t.id}
                     small
@@ -136,26 +135,38 @@ class TagComponentFooter extends React.Component<{ tagStore: TagStore, dayViewSt
             );
         });
 
+        const addNewTagButton = (
+            <Button full success
+                onPress={this.handleAddTagPress}>
+                <Text>Add New Tag</Text>
+            </Button>
+        );
+
         return (
             <View style={{ backgroundColor: '#fff', height: 200 }}>
                 <Form style={{ flex: 1 }}>
-                    <Item>
-                        <Input placeholder="Add Tag"
+                    <Item regular style={{ marginLeft: 10, marginRight: 10, marginVertical: 5, backgroundColor: '#eee', height: 40 }}>
+                        <Input placeholder="Search Tags"
                             value={this.displayState.newTagDescription}
                             returnKeyType="go"
                             onSubmitEditing={this.handleAddTagPress}
                             onChangeText={this.handleNewTagDescriptionChange} />
-                        <Icon name="add-circle" onPress={this.handleAddTagPress} />
+                        <Icon active name="search" />
                     </Item>
-                    <Item stackedLabel style={{ borderBottomWidth: 0, height: 150 }}>
-                        <Label>{this.displayState.newTagDescription.length == 0 ? "Recent Tags" : "Similar Tags"}</Label>
-                        <Content contentContainerStyle={styles.tagDisplayRow}>
-                            {recentTags}
-                        </Content>
-                    </Item>
+                    {
+                        (tagsToShow.length == 0 && this.displayState.newTagDescription.length > 0) ?
+                            addNewTagButton :
+                            <Item stackedLabel style={{ borderBottomWidth: 0, height: 150 }}>
+
+                                < Label > {this.displayState.newTagDescription.length == 0 ? "Recent Tags" : "Similar Tags"}</Label>
+                                <Content contentContainerStyle={styles.tagDisplayRow}>
+                                    {tagsToShow}
+                                </Content>
+                            </Item>
+                    }
                 </Form>
-            </View>
-  
+            </View >
+
         )
     }
 }
