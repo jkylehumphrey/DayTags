@@ -14,6 +14,7 @@
     "native-base": "^2.3.9",
     "react": "16.2.0",
     "react-native": "0.53.3",
+    "react-native-modal": "^5.1.1",
     "react-native-router-flux": "^4.0.0-beta.28",
     "react-native-typescript-transformer": "^1.2.3",
     "uuid": "^3.2.1"

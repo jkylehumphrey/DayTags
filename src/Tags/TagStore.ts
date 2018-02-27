@@ -1,8 +1,9 @@
-import { TagService } from './TagService'
-import { observable, action, computed, reaction } from 'mobx';
-import { Tag } from './Tag';
-import * as _ from 'lodash';
+import { action, computed, observable, reaction } from 'mobx';
+import moment from 'moment';
+
 import { DayViewStore } from './DayViewStore';
+import { Tag } from './Tag';
+import { TagService } from './TagService';
 
 export class TagStore {
     @observable tags: Tag[] = [];
@@ -23,6 +24,14 @@ export class TagStore {
                 }
             })
             .catch(err => alert(err));
+    }
+
+    tagColors = ['#5887CE', '#F2E394', '#F2AE72', '#D96459', '#8C4646'];
+    colorIndex = 0;
+
+    @computed get nextColorHex(): string {
+        if (this.colorIndex > this.tagColors.length - 1) this.colorIndex = 0;
+        return this.tagColors[this.colorIndex++];
     }
 
     saveHandler = reaction(
@@ -52,8 +61,13 @@ export class TagStore {
         this.tags = [];
     }
 
-    @action addTag(tag: Tags.Contracts.ITag) {
-        this.tags.push(new Tag(tag));
+    @action addTag(description: string) {
+        this.tags.push(new Tag({
+            description: description,
+            days: [this.dayViewStore.currentMomentTicks],
+            colorRGBA: this.nextColorHex,
+            lastUsedTicks: moment(new Date()).valueOf()
+        }));
     }
 
     @action deleteTag(tag: Tag) {

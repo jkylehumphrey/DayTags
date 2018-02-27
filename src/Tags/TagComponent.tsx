@@ -1,12 +1,15 @@
 import { observer } from 'mobx-react';
+import { observable } from 'mobx';
 import moment from 'moment';
-import { Body, Button, Container, Content, Footer, Grid, Header, Icon, Left, Right, Text, Row } from 'native-base';
+import { Body, Button, Container, Content, Footer, Grid, Header, Icon, Left, Right, Row, Text, Col } from 'native-base';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import Modal from 'react-native-modal';
 
 import { ColorStore } from '../Global/ColorStore';
 import { DayViewStore } from './DayViewStore';
 import { TagStore } from './TagStore';
+import { AddTagModalProps, AddTagModal } from './AddTagModal';
 
 @observer
 export class TagComponent extends React.Component<{ tagStore: TagStore, dayViewStore: DayViewStore }, null> {
@@ -16,18 +19,12 @@ export class TagComponent extends React.Component<{ tagStore: TagStore, dayViewS
         this._colorStore = new ColorStore();
     }
 
-    random_rgba() {
-        var o = Math.round, r = Math.random, s = 255;
-        return 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',' + r().toFixed(1) + ')';
+    @observable addTagModalState: AddTagModalProps = {
+        show: false
     }
 
-    handleTagAdd = () => {
-        this.props.tagStore.addTag({
-            description: this.props.tagStore.totalNumTags.toString(),
-            days: [this.props.dayViewStore.currentMomentTicks],
-            colorRGBA: this._colorStore.nextColorHex,
-            lastUsedTicks: moment(new Date()).valueOf()
-        })
+    handleAddTagPress = () => {
+        this.addTagModalState.show = true;
     }
 
     handleClear = () => {
@@ -74,7 +71,7 @@ export class TagComponent extends React.Component<{ tagStore: TagStore, dayViewS
                             {recentTags}
                         </Row>
                         <Row>
-                            <Button onPress={this.handleTagAdd}>
+                            <Button onPress={this.handleAddTagPress}>
                                 <Text>Add</Text>
                             </Button>
                         </Row>
@@ -85,6 +82,8 @@ export class TagComponent extends React.Component<{ tagStore: TagStore, dayViewS
                         </Row>
                     </Grid>
                 </Footer>
+
+                <AddTagModal observableProps={this.addTagModalState} tagStore={this.props.tagStore} />
             </Container >
         )
     }
@@ -137,3 +136,4 @@ const styles = StyleSheet.create({
         height: 200
     }
 });
+
