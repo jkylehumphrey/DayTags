@@ -50,7 +50,11 @@ export class TagStore {
     }
 
     @computed get tagsForCurrentDay(): Tag[] {
-        return this.tags.filter(t => { return t.days.includes(this.dayViewStore.currentMomentTicks) });
+        return this.tags
+            .filter(t => { return t.days.includes(this.dayViewStore.currentMomentTicks) })
+            .sort((a, b) => {
+                return a.lastUsedTicks - b.lastUsedTicks
+            });
     }
 
     tagsForDay(dayTicks: number): Tag[] {
