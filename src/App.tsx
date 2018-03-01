@@ -3,9 +3,9 @@ import * as React from 'react';
 import { AppRegistry } from 'react-native';
 import { Router, Scene, Stack } from 'react-native-router-flux';
 
-import { TagComponent } from './Tags/TagComponent';
-import { TagStore } from './Tags/TagStore';
+import { TagViewWrapper } from './Tags/Components/TagViewWrapper';
 import { DayViewStore } from './Tags/DayViewStore';
+import { TagStore } from './Tags/TagStore';
 
 var _tagStore: TagStore = null;
 var _dayViewStore: DayViewStore = null;
@@ -24,7 +24,7 @@ export default class App extends React.Component<any, any> {
       <Router>
         <Stack>
           <Scene key="tagDay" hideNavBar initial
-            component={TagComponent}
+            component={TagViewWrapper}
             tagStore={_tagStore}
             dayViewStore={_dayViewStore} />
         </Stack>
